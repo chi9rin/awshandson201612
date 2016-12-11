@@ -1,5 +1,7 @@
 <?php
 
+$UPDATE_COUNTER_QUERY = 'UPDATE data SET value = value + 1 WHERE name = "counter"';
+$GET_COUNTER_QUERY = 'SELECT value FROM data WHERE name = "counter"';
 $server_ip = $_SERVER['SERVER_ADDR'];
 
 $dbhost = '<< RDS Endpoint >>';
@@ -12,16 +14,17 @@ $password = '<< Password >>';
 
 try {
   $dbh = new PDO($dsn, $username, $password);
-  $UPDATE_COUNTER_QUERY = 'UPDATE data SET value = value + 1 WHERE name = "counter"';
-  $GET_COUNTER_QUERY = 'SELECT value FROM data WHERE name = "counter"';
 
   $dbh->query($UPDATE_COUNTER_QUERY);
+
   foreach($dbh->query($GET_COUNTER_QUERY) as $row) {
     $counter_value = $row['value'];
   }
+
 } catch (PDOException $e) {
   print('cannot connect to mysql ep' + $dbhost);
 }
+
 ?>
 
 <html>
